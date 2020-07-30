@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Pizza_Exercise.Views.ItemsPage"
+             Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
+        <Grid RowDefinitions="Auto, Auto">
+            <Grid Grid.Row="0" Padding="10" RowDefinitions="Auto" ColumnDefinitions="200, 100, 50">
+                <Label Text="Toppings" 
+                                Grid.Column="0"
+                                LineBreakMode="NoWrap"
+                                Style="{DynamicResource ColumnHeaderStyle}"
+                                FontSize="13" />
+                <Label Text="No. of Orders" 
+                                Grid.Column="1"
+                                LineBreakMode="NoWrap"
+                                Style="{DynamicResource ColumnHeaderStyle}"
+                                FontSize="13" />
+                <Label Text="Rank" 
+                                Grid.Column="2"
+                                LineBreakMode="NoWrap"
+                                Style="{DynamicResource ColumnHeaderStyle}"
+                                FontSize="13" />
+            </Grid>
+            <CollectionView Grid.Row="1" x:Name="ItemsCollectionView"
+                ItemsSource="{Binding Items}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                            <Grid Padding="10" RowDefinitions="Auto" ColumnDefinitions="200, 100, 50">
+                                <ListView x:Name="listView"
+                                          RowHeight="25"
+                                          VerticalOptions="StartAndExpand" 
+                                          Grid.Column="0" 
+                                          ItemsSource="{Binding Toppings}" 
+                                          SelectionMode="None"
+                                          SeparatorVisibility="None"
+                                          IsPullToRefreshEnabled="False">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextCell Text="{Binding .}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Label Text="{Binding Count, StringFormat='{0:N0}'}}" 
+                                        d:Text="Combination count"
+                                        Grid.Column="1"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        FontSize="13" />
+                                <Label Text="{Binding Rank}" 
+                                        d:Text="Combination ranking"
+                                        Grid.Column="2"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        FontSize="13" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+       </Grid>
+    </RefreshView> 
+</ContentPage>
